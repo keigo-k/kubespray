@@ -58,7 +58,9 @@
     sysctl_file: "{{ sysctl_file_path }}"
     state: present
     reload: yes
-  when: kube_apiserver_node_port_range is defined
+  when:
+    - kube_apiserver_node_port_range is defined
+    - is_docker is not defined or not is_docker
   tags:
     - kube-proxy
 

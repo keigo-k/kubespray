@@ -149,7 +149,7 @@ dns_domain: "{{ cluster_name }}"
 container_manager: docker
 
 ## Settings for containerized control plane (etcd/kubelet/secrets)
-etcd_deployment_type: docker
+etcd_deployment_type: host
 kubelet_deployment_type: host
 helm_deployment_type: host
 

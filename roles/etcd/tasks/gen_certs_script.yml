@@ -89,7 +89,7 @@
         {% endfor %}]"
   delegate_to: "{{groups['etcd'][0]}}"
   when:
-    - inventory_hostname in groups['etcd']
+    - inventory_hostname in groups['etcd'] or inventory_hostname in groups['k8s-cluster']
     - sync_certs|default(false)
     - inventory_hostname != groups['etcd'][0]
   notify: set etcd_secret_changed
@@ -103,7 +103,7 @@
     mode: 0640
   with_items: "{{ etcd_master_certs.results }}"
   when:
-    - inventory_hostname in groups['etcd']
+    - inventory_hostname in groups['etcd'] or inventory_hostname in groups['k8s-cluster']
     - sync_certs|default(false)
     - inventory_hostname != groups['etcd'][0]
   loop_control:
@@ -126,7 +126,7 @@
     - "{{ my_etcd_node_certs }}"
 
 - name: Gen_certs | Gather node certs
-  shell: "tar cfz - -C {{ etcd_cert_dir }} -T /dev/stdin <<< {{ my_etcd_node_certs|join(' ') }} | base64 --wrap=0"
+  shell: "tar cfz - -C {{ etcd_cert_dir }} -T - <<< {{ my_etcd_node_certs|join(' ') }} | base64 --wrap=0"
   args:
     executable: /bin/bash
     warn: false

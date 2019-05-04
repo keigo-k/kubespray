@@ -59,3 +59,4 @@
     backup: yes
     unsafe_writes: yes
   with_dict: "{{ etc_hosts_localhosts_dict_target }}"
+  when: is_docker is not defined or not is_docker

@@ -253,7 +253,7 @@ docker_options: >-
   {%- endif -%}
 
 # Settings for containerized control plane (etcd/kubelet/secrets)
-etcd_deployment_type: docker
+etcd_deployment_type: host
 cert_management: script
 
 helm_deployment_type: host
